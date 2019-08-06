@@ -134,7 +134,7 @@ async function drawHeatmap(map, centresOn = [51.5, 0]) {
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2F1bHNtIiwiYSI6ImNqeXpya2s5NTA0ZzEza2xvcTdnbzA5dGEifQ.od-gB5fE_iC0yssElhaCeg';
 var map = new mapboxgl.Map({
     container: 'theMap',
-    style: 'mapbox://styles/mapbox/streets-v11',
+    style: 'mapbox://styles/mapbox/dark-v10',
     center: [-0.12, 51],
     zoom: 5
 });
