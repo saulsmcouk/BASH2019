@@ -1,3 +1,6 @@
+//TODO: Learn to construct queries
+//TODO: Add more than 50 at a time
+
 function LoadECDonationData(callback) {
 	// Construct an EC database query
 	// var basicURL = "http://search.electoralcommission.org.uk/api/Search/Donations?";
@@ -27,11 +30,15 @@ function LoadECDonationData(callback) {
 
 }
 
-function GetPostcodes(data) {
+function _extractPostcodes(data) {
 	var postcodes = [];
 	for (var i = data["Result"].length - 1; i >= 0; i--) {
 		postcodes.push(data["Result"][i]["Postcode"]);
 	}
 	console.log(postcodes);
 	return postcodes.filter(x => x);
+}
+
+function GetPostCodesList(data, queryURL){
+
 }
