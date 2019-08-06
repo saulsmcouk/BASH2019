@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="lib/leaflet.css">
-	<script type="text/javascript" src="src/leaflet.js"></script>
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet'>
+	<script type="text/javascript" src="src/geolocation.js"></script>
 	<script type="text/javascript" src="src/data.js"></script>
-	<script type="text/javascript" src="src/map.js"></script>
 	<style type="text/css">
 		#theMap { 
 			height: 500px;
-			width: 500px; }
+			width: 500px; 
+			border-style: solid;
+		}
 	</style>
 	<title>Who Pays Politicians?</title>
 	<style>
@@ -17,5 +19,6 @@
 </head>
 <body>
 	<div id="theMap"></div>
+	<script type="text/javascript" src="src/map.js"></script>
 </body>
 </html>
