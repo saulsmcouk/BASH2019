@@ -18,7 +18,7 @@ function generateECDonationsQuery(params) {
 		"currentPage": 1,
 		"rows": 50,
 		"query": "",
-		"regulatedEntity": ""
+		"regulatedEntity": "",
 		"quarters": "",
 		"tab": "",
 		"includesIrishSources": "true",
