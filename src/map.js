@@ -1,15 +1,12 @@
 async function drawHeatmap(map, centresOn = [51.5, 0]) {
-    LoadECDonationData(data => _extractPostcodes(data, async function(d) {
-    	const validPostcodeRegex = new RegExp('^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$');
-        var thePostcodes = d.filter(x => validPostcodeRegex.test(x));
+    GetCSVDonationData(data => _extractPostcodes(data, async thePostcodes => { 
         var theLatLngs = [];
         window.errorCounter = 0;
         for (var i = thePostcodes.length - 1; i >= 0; i--) {
-            console.log(thePostcodes[i]);
+            console.log(i/thePostcodes.length);
             var thePromise = fetch("http://api.postcodes.io/postcodes/" + thePostcodes[i])
                 .then(body => body.json())
                 .then(r => {
-                	console.log(r)
                 	theLatLngs.push([r["result"]["latitude"], r["result"]["longitude"]]);
                 })
                 .catch(error => {
