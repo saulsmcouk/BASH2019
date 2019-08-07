@@ -20,13 +20,13 @@ function generateECDonationsQuery(params) {
 		"query": "",
 		"quarters": "",
 		"tab": "",
-		"includesIrishSources": "",
-		"includesNonIrishSources": ""
+		"includesIrishSources": "true",
+		"includesNonIrishSources": "true"
 	}
 	for (var id in params) {
 		filters[id] = params[id];
 	}
-	return `search.electoralcommission.org.uk/api/Search/Donations?currentPage=${filters["currentPage"]}&rows=${filters["rows"]}&query=${filters["query"]}&sort=AccceptedDate&quarters=${filters["quarters"]}&order=desc&tab=${filters["tab"]}&et=pp&et=ppm&et=tp&et=perpar&et=rd&isIrishSourceYes=${filters["includesIrishSources"]}&isIrishSourceNo=${filters["includesNonIrishSources"]}&prePoll=false&postPoll=true&register=gb&register=ni&register=none&optCols=Register&optCols=CampaigningName&optCols=AccountingUnitsAsCentralParty&optCols=IsSponsorship&optCols=IsIrishSource&optCols=RegulatedDoneeType&optCols=CompanyRegistrationNumber&optCols=Postcode&optCols=NatureOfDonation&optCols=PurposeOfVisit&optCols=DonationAction&optCols=ReportedDate&optCols=IsReportedPrePoll&optCols=ReportingPeriodName&optCols=IsBequest&optCols=IsAggregation`;
+	return `search.electoralcommission.org.uk/api/Search/Donations?currentPage=${filters["currentPage"]}&rows=${filters["rows"]}&query=${filters["query"]}&sort=AcceptedDate&order=desc&tab=${filters["tab"]}&et=pp&et=ppm&et=tp&et=perpar&et=rd&isIrishSourceYes=${filters["includesIrishSources"]}&isIrishSourceNo=${filters["includesNonIrishSources"]}&date=Reported&from=&to=&quarters=${filters["quarters"]}&prePoll=false&postPoll=true&register=gb&register=ni&register=none&optCols=Register&optCols=CampaigningName&optCols=AccountingUnitsAsCentralParty&optCols=IsSponsorship&optCols=IsIrishSource&optCols=RegulatedDoneeType&optCols=CompanyRegistrationNumber&optCols=Postcode&optCols=NatureOfDonation&optCols=PurposeOfVisit&optCols=DonationAction&optCols=ReportedDate&optCols=IsReportedPrePoll&optCols=ReportingPeriodName&optCols=IsBequest&optCols=IsAggregation`;
 }
 
 /*
