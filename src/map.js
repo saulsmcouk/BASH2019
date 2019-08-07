@@ -21,11 +21,6 @@ async function drawHeatmap(map, centresOn = [51.5, 0]) {
             "type": "geojson",
             "data": theJSON
         });
-        // map.addLayer({
-        // 	"id": "postcodes-heat",
-        // 	"type": "heatmap",
-        // 	"source": "postcodes"
-        // });
         map.addLayer({
             id: 'postcodes-heat',
             type: 'heatmap',
