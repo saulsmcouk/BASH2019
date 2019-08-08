@@ -1,6 +1,7 @@
 var express = require("express");
 var path = require("path");
 var cheerio = require("cheerio");
+var axios = require("axios");
 //var request = require("request");
 
 var app = express();
@@ -25,10 +26,11 @@ app.get('/api/getMpVotes/:url', function(request, response){
 
 function getMPVotes(url, callback) {
     var votes = [];
-    var $ = cheerio.load(url);
-    $('.policy-vote-overall-stance').each(function(i, elem){
-      votes[i] = $(this).text();
-      console.log(votes[i]);
+    var html = axios.get(url).then(function(html){
+        var $ = cheerio.load(html.data);
+        $('.policy-vote-overall-stance').each(function(i, elem){
+            votes[i] = ($(this).text()).replace(/\s\s+/g, ' ');
+        });
+        callback(votes);
     });
-    callback (url)
-  }
+}

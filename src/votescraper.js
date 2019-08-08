@@ -35,17 +35,9 @@ function getPersonID(mp, callback) {
         })
         .catch(function(result){
             console.log("theyworkforyou API call unsuccessful.");
+            console.log("mp was not found");
             console.log(result);
         });
 }
 
-// function formatName(name) {
-//     var splitName = name.split(" ");
-//     var formattedName = name[0];
-//     for (var i = 1; i < name.length; i++) {
-//         formattedName += "_" + name[i];
-//     }
-//     return formattedName;
-// }
-
-console.log(getPersonID("Dianne Abbott", data => scrapeVotes(data, out => {return out})));
+console.log(getPersonID("Diane Abbott", data => scrapeVotes(data, out => {return out})));
