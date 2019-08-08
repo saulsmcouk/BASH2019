@@ -37,13 +37,7 @@ async function drawHeatmap(map, centresOn = [51.5, 0]) {
             await thePromise;
         }
         var theJSON = GenGeoJSON(theLatLngs);
-        // Check if sources exist - delete if they do
-        if (map.getSource("postcodes")) {
-            map.removeSource("postcodes");
-        }
-        if (map.getLayer("postcodes-heat")) {
-            map.removeLayer("postcodes-heat");
-        }
+
         
         map.addSource("postcodes", {
             "type": "geojson",

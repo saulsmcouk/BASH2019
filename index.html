@@ -42,10 +42,10 @@
 	<title>Who Pays Politicians?</title>
 </head>
 <body>
-	<!-- <div id="theMap"></div>
-	<div id="theProgressBar"></div>
-	<div id="container"></div> -->
 	<div class="container">
+		<div class="row">
+			<h1>Heatmap</h1>
+		</div>
 		<div class="row">
 			<div class="col-7">
 				<div id="theMap"></div>
@@ -108,18 +108,25 @@
 							</div>
 						</div>
 					</div>	
-					<button type="button" class="btn btn-success" id="drawMapBtn">Draw the map!</button>		
+					<button type="button" class="btn btn-success" id="drawMapBtn">Visualise</button>		
 				</form>
 			</div>
 		</div>
+	</div>
+	<div class="row">
+		<h1>Sankey Diagram</h1>
+	</div>
+	<div class="row">
+		<div id="container"></div>
 	</div>
 	<script type="text/javascript">
 		let filterForm = document.getElementById("mapFilterForm");
 		filterForm.addEventListener("change", () => setFilters());
 		document.getElementById("drawMapBtn").addEventListener("click", () => {
 			drawHeatmap(map);
-			console.log("clicked");
+			drawSankeyDiagram(9);
 		});
+		setFilters();
 	</script>
 	<script type="text/javascript" src="src/map.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
