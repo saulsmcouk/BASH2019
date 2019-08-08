@@ -18,7 +18,7 @@ function generateECDonationsQuery(params) {
 		"currentPage": 1,
 		"rows": 50,
 		"query": "",
-		"regulatedEntity": ""
+		"regulatedEntity": "",
 		"quarters": "",
 		"tab": "",
 		"includesIrishSources": "true",
@@ -31,7 +31,4 @@ function generateECDonationsQuery(params) {
 }
 /*
 search.electoralcommission.org.uk/Search/Donations?currentPage=${filters["currentPage"]}&rows=${filters["rows"]}&query=${filters["query"]}&sort=AccceptedDate&quarters=${filters["quarters"]}&order=desc&tab=${filters["tab"]}&et=pp&et=ppm&et=tp&et=perpar&et=rd&isIrishSourceYes=${filters["includesIrishSources"]}&isIrishSourceNo=${filters["includesNonIrishSources"]}&prePoll=false&postPoll=true&register=gb&register=ni&register=none&optCols=Register&optCols=CampaigningName&optCols=AccountingUnitsAsCentralParty&optCols=IsSponsorship&optCols=IsIrishSource&optCols=RegulatedDoneeType&optCols=CompanyRegistrationNumber&optCols=Postcode&optCols=NatureOfDonation&optCols=PurposeOfVisit&optCols=DonationAction&optCols=ReportedDate&optCols=IsReportedPrePoll&optCols=ReportingPeriodName&optCols=IsBequest&optCols=IsAggregation
-
-
-
 */
