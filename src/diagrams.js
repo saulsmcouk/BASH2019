@@ -3,6 +3,7 @@
 function drawSankeyChart(data) {
     var sankey_chart = anychart.sankey(data);//customizing the width of the nodes
     sankey_chart.nodeWidth("50%");
+    sankey_chart.nodePadding(5);
     sankey_chart.container("container");//initiating drawing the Sankey diagram
     sankey_chart.draw();
 }
@@ -32,6 +33,20 @@ function buildSankeyData(data, fromIndex) {
     data.forEach(function(item) {
         // Granualate here:
         sankeyItems.push(applyGranularFilter(item));
+    });
+    // Tally company types
+    let companyTypes = {};
+    data.forEach(function(item) {
+        if(item[9] == "Company") {
+            getSIC(item[11], sic => {
+                let thePhrase = SICtoPhrase(sic);
+                if (thePhrase in companyTypes) {
+                    companyTypes[thePhrase] += currency(item[3]);
+                } else {
+                    companyTypes[thePhrase] = currency(item[3]);
+                }
+            });
+        }
     });
     return sankeyItems;
 }
