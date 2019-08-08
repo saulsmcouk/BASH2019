@@ -1,40 +1,23 @@
-//TODO: Learn to construct queries
-//TODO: Add more than 50 at a time
-
-async function LoadECDonationData(callback) {
-	// Construct an EC database query
-	// var basicURL = "http://search.electoralcommission.org.uk/api/Search/Donations?";
-	// var theQUery = "currentPage=1&rows=10&sort=AcceptedDate&order=desc&tab=1&open=filter&et=pp&et=ppm&et=tp&et=perpar&et=rd&isIrishSourceYes=true&isIrishSourceNo=true&date=Reported&from=&to=&quarters=${quarters}&prePoll=true&postPoll=true&donorStatus=company&register=none&register=gb&optCols=Register&optCols=CampaigningName&optCols=AccountingUnitsAsCentralParty&optCols=IsSponsorship&optCols=IsIrishSource&optCols=RegulatedDoneeType&optCols=CompanyRegistrationNumber&optCols=Postcode&optCols=NatureOfDonation&optCols=PurposeOfVisit&optCols=DonationAction&optCols=ReportedDate&optCols=IsReportedPrePoll&optCols=ReportingPeriodName&optCols=IsBequest&optCols=IsAggregation";
-	// var theOverall = basicURL + theQUery;
-	// //***TEMP
-	var theOverall = "http://search.electoralcommission.org.uk/api/Search/Donations?currentPage=1&rows=64349&sort=AcceptedDate&order=desc&tab=1&et=pp&et=ppm&et=tp&et=perpar&et=rd&isIrishSourceYes=true&isIrishSourceNo=true&prePoll=false&postPoll=true&register=gb&register=ni&register=none&optCols=Register&optCols=CampaigningName&optCols=AccountingUnitsAsCentralParty&optCols=IsSponsorship&optCols=IsIrishSource&optCols=RegulatedDoneeType&optCols=CompanyRegistrationNumber&optCols=Postcode&optCols=NatureOfDonation&optCols=PurposeOfVisit&optCols=DonationAction&optCols=ReportedDate&optCols=IsReportedPrePoll&optCols=ReportingPeriodName&optCols=IsBequest&optCols=IsAggregation";
-	
-	var response = fetch(theOverall, {
-		"content-type": "application/json"
-	})
-		.then(body => body.json()).then(
-			function (data) {
-				callback(data);
-			})
-		.catch(function (result) {
-			console.log("An error occurred fetching the data");
-			console.log(result);
+async function GetCSVDonationData(callback) {
+	Toastify({
+		text: "GetCSVDonationData",
+		duration: 3000
+	}).showToast();
+	fetch(generateECDonationsQuery(window.currentFilters))
+		.then(data => data.blob())
+		.then(async function (data){
+			const response = await new Response(data).text();
+			window.tempData = Papa.parse(response)["data"];
+			callback(Papa.parse(response)["data"]);
 		});
-
-
-	// function doWork() {
-	// 	LoadECDonationData(something).then(theData => {
-	// 		// do anything with the data here
-	// 	})
-	// }\
-
 }
 
-async function _extractPostcodes(data, callback) {
-	var postcodes = [];
-	for (var i = data["Result"].length - 1; i >= 0; i--) {
-		postcodes.push(data["Result"][i]["Postcode"]);
-	}
-	callback(postcodes);
+function _extractPostcodes(data, callback) {
+	let postcodes = [];
+	data.forEach(function(d) {
+		postcodes.push(d[12]);
+	});
+	const validPostcodeRegex = new RegExp('^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$');
+    callback(postcodes.filter(x => validPostcodeRegex.test(x)));
 }
 

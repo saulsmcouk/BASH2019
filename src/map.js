@@ -1,22 +1,44 @@
 async function drawHeatmap(map, centresOn = [51.5, 0]) {
-    // Convert postcodes to latlngs, draw heatmap
-    // 1) Get Postcodes
-    LoadECDonationData(data => _extractPostcodes(data, async function(d) {
-        var thePostcodes = d.filter(x => x != null);
-        var theLatLngs = [];
-        var thePromise;
-        for (var i = thePostcodes.length - 1; i >= 0; i--) {
-            console.log(thePostcodes[i]);
-            // theLatLngs.push(getLatLng(thePostcodes[i]));
-            let thePromise = fetch("http://api.postcodes.io/postcodes/" + thePostcodes[i])
-                .then(body => body.json())
-                .then(r => theLatLngs.push([r["result"]["latitude"], r["result"]["longitude"]]));
-            let result = await thePromise;
-        }
-        console.log(theLatLngs);
-        var theJSON = GenGeoJSON(theLatLngs);
-        console.log(theJSON);
+    GetCSVDonationData(data => _extractPostcodes(data, async thePostcodes => {
+        Toastify({
+            text: "drawHeatmap",
+            duration: 3000
+        }).showToast();
+        // Setup the Progressbar
+        let progressBar = new ProgressBar.Line("#theProgressBar", {
+            color: "rgb(0,255,0)",
+            style: {
+                // Text color.
+                // Default: same as stroke color (options.color)
+                color: '#f00',
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                padding: 0,
+                margin: 0
+        },
 
+        });
+        var theLatLngs = [];
+        window.errorCounter = 0;
+        for (var i = thePostcodes.length - 1; i >= 0; i--) {
+            let progress = 1 - (i / thePostcodes.length);
+            progressBar.set(progress);
+            progressBar.text = Math.floor(progress * 100) + "%";
+            var thePromise = fetch("http://api.postcodes.io/postcodes/" + thePostcodes[i])
+                .then(body => body.json())
+                .then(r => {
+                    theLatLngs.push([r["result"]["latitude"], r["result"]["longitude"]]);
+                })
+                .catch(error => {
+                    console.warn("Found a postcode which no longer resolves: ", error);
+                    window.errorCounter++;
+                });
+            await thePromise;
+        }
+        var theJSON = GenGeoJSON(theLatLngs);
+
+        
         map.addSource("postcodes", {
             "type": "geojson",
             "data": theJSON
@@ -72,58 +94,6 @@ async function drawHeatmap(map, centresOn = [51.5, 0]) {
             }
         }, 'waterway-label');
     }));
-    map.addLayer({
-        id: 'postcodes-point',
-        type: 'circle',
-        source: 'postcodes',
-        minzoom: 14,
-        paint: {
-            // increase the radius of the circle as the zoom level and dbh value increases
-            'circle-radius': {
-                property: 'dbh',
-                type: 'exponential',
-                stops: [
-                    [{
-                        zoom: 15,
-                        value: 1
-                    }, 5],
-                    [{
-                        zoom: 15,
-                        value: 62
-                    }, 10],
-                    [{
-                        zoom: 22,
-                        value: 1
-                    }, 20],
-                    [{
-                        zoom: 22,
-                        value: 62
-                    }, 50],
-                ]
-            },
-            'circle-color': {
-                property: 'dbh',
-                type: 'exponential',
-                stops: [
-                    [0, 'rgba(236,222,239,0)'],
-                    [10, 'rgb(236,222,239)'],
-                    [20, 'rgb(208,209,230)'],
-                    [30, 'rgb(166,189,219)'],
-                    [40, 'rgb(103,169,207)'],
-                    [50, 'rgb(28,144,153)'],
-                    [60, 'rgb(1,108,89)']
-                ]
-            },
-            'circle-stroke-color': 'white',
-            'circle-stroke-width': 1,
-            'circle-opacity': {
-                stops: [
-                    [14, 0],
-                    [15, 1]
-                ]
-            }
-        }
-    }, 'waterway-label');
 }
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2F1bHNtIiwiYSI6ImNqeXpya2s5NTA0ZzEza2xvcTdnbzA5dGEifQ.od-gB5fE_iC0yssElhaCeg';
