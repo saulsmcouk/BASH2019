@@ -1,27 +1,50 @@
 async function drawHeatmap(map, centresOn = [51.5, 0]) {
-    GetCSVDonationData(data => _extractPostcodes(data, async thePostcodes => { 
+    GetCSVDonationData(data => _extractPostcodes(data, async thePostcodes => {
+        Toastify({
+            text: "drawHeatmap",
+            duration: 3000
+        }).showToast();
         // Setup the Progressbar
         let progressBar = new ProgressBar.Line("#theProgressBar", {
-            color: "rgb(0,255,0)"
+            color: "rgb(0,255,0)",
+            style: {
+                // Text color.
+                // Default: same as stroke color (options.color)
+                color: '#f00',
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                padding: 0,
+                margin: 0
+        },
+
         });
         var theLatLngs = [];
         window.errorCounter = 0;
         for (var i = thePostcodes.length - 1; i >= 0; i--) {
-            let progress = 1 - (i/thePostcodes.length);
+            let progress = 1 - (i / thePostcodes.length);
             progressBar.set(progress);
             progressBar.text = Math.floor(progress * 100) + "%";
             var thePromise = fetch("http://api.postcodes.io/postcodes/" + thePostcodes[i])
                 .then(body => body.json())
                 .then(r => {
-                	theLatLngs.push([r["result"]["latitude"], r["result"]["longitude"]]);
+                    theLatLngs.push([r["result"]["latitude"], r["result"]["longitude"]]);
                 })
                 .catch(error => {
-                	console.warn("Found a postcode which no longer resolves: ",error); 
-                	window.errorCounter++;
+                    console.warn("Found a postcode which no longer resolves: ", error);
+                    window.errorCounter++;
                 });
             await thePromise;
         }
         var theJSON = GenGeoJSON(theLatLngs);
+        // Check if sources exist - delete if they do
+        if (map.getSource("postcodes")) {
+            map.removeSource("postcodes");
+        }
+        if (map.getLayer("postcodes-heat")) {
+            map.removeLayer("postcodes-heat");
+        }
+        
         map.addSource("postcodes", {
             "type": "geojson",
             "data": theJSON
