@@ -2,6 +2,7 @@
 
 function drawSankeyChart(data) {
     var sankey_chart = anychart.sankey(data);//customizing the width of the nodes
+    sankey_chart.nodeWidth("50%");
     sankey_chart.container("container");//initiating drawing the Sankey diagram
     sankey_chart.draw();
 }

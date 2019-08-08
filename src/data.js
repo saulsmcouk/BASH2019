@@ -1,8 +1,13 @@
 async function GetCSVDonationData(callback) {
+	Toastify({
+		text: "GetCSVDonationData",
+		duration: 3000
+	}).showToast();
 	fetch(generateECDonationsQuery(window.currentFilters))
 		.then(data => data.blob())
 		.then(async function (data){
 			const response = await new Response(data).text();
+			window.tempData = Papa.parse(response)["data"];
 			callback(Papa.parse(response)["data"]);
 		});
 }
