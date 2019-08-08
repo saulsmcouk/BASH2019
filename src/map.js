@@ -7,7 +7,9 @@ async function drawHeatmap(map, centresOn = [51.5, 0]) {
         var theLatLngs = [];
         window.errorCounter = 0;
         for (var i = thePostcodes.length - 1; i >= 0; i--) {
-            progressBar.set(1 - (i/thePostcodes.length));
+            let progress = 1 - (i/thePostcodes.length);
+            progressBar.set(progress);
+            progressBar.text = Math.floor(progress * 100) + "%";
             var thePromise = fetch("http://api.postcodes.io/postcodes/" + thePostcodes[i])
                 .then(body => body.json())
                 .then(r => {
