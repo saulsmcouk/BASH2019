@@ -1,29 +1,3 @@
-//TODO: Learn to construct queries
-//TODO: Add more than 50 at a time
-
-async function LoadECDonationData(callback, desired = 100, currentTally = 0, carriedOver = [], pageNumber = 1) {
-	console.log(currentTally);
-	// window.currentFilters
-	var theOverall = generateECDonationsQuery(window.currentFilters);
-	var response = fetch(theOverall, {
-		"content-type": "application/json"
-	})
-		.then(body => body.json()).then(data => {
-			currentTally += data["Result"].length;
-			if (currentTally >= desired) {
-
-				callback(data);
-			} else {
-				LoadECDonationData(callback, desired, currentTally + data["Result"].length )
-			};
-		})
-		.catch(result => {
-			console.log("An error occurred fetching the data");
-			console.log(result);
-		});
-}
-
-
 async function GetCSVDonationData(callback) {
 	fetch(generateECDonationsQuery(window.currentFilters))
 		.then(data => data.blob())

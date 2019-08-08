@@ -1,9 +1,13 @@
 async function drawHeatmap(map, centresOn = [51.5, 0]) {
     GetCSVDonationData(data => _extractPostcodes(data, async thePostcodes => { 
+        // Setup the Progressbar
+        let progressBar = new ProgressBar.Line("#theProgressBar", {
+            color: "rgb(0,255,0)"
+        });
         var theLatLngs = [];
         window.errorCounter = 0;
         for (var i = thePostcodes.length - 1; i >= 0; i--) {
-            console.log(i/thePostcodes.length);
+            progressBar.set(1 - (i/thePostcodes.length));
             var thePromise = fetch("http://api.postcodes.io/postcodes/" + thePostcodes[i])
                 .then(body => body.json())
                 .then(r => {

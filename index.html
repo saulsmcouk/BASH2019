@@ -2,29 +2,42 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script type="text/javascript" src="src/papaparse.min.js"></script>
+	<script type="text/javascript" src="src/progressbars.js"></script>
+	<script type="text/    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">javascript" src="src/currency.js"></script>
 	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
 	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet'>
+	<script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-sankey.min.js"></script>
 	<script type="text/javascript">
 		window.currentFilters = {};
 	</script>
 	<script type="text/javascript" src="src/geolocation.js"></script>
 	<script type="text/javascript" src="src/data.js"></script>
 	<script type="text/javascript" src="src/queries.js"></script>
+	<script type="text/javascript" src="src/diagrams.js"></script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<style type="text/css">
 		#theMap { 
 			height: 500px;
 			width: 500px; 
 			border-style: solid;
 		}
+		#container {
+			height:500px;
+		}
+		#theProgressBar {
+			height: 20px;
+		}
 	</style>
 	<title>Who Pays Politicians?</title>
-	<style>
-
-	</style>
 </head>
 <body>
-	<div id="theMap"></div>
+	<!-- <div id="theMap"></div> -->
+	<div id="theProgressBar"></div>
+	<div id="container"></div>
 	<script type="text/javascript" src="src/map.js"></script>
 </body>
 </html>
