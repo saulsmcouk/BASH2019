@@ -29,7 +29,7 @@ app.use("/src", express.static(path.join(__dirname, "./src")));
 app.use("/assets", express.static(path.join(__dirname, "./assets")));
 app.use("/images", express.static(path.join(__dirname, "./images")));
 
-var server = app.listen(80, function(){
+var server = app.listen(process.env.PORT, function(){
 
 });
 
