@@ -1,10 +1,275 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Who Paid The Piper?</title>
+        <title>Who Paid The Piper - Voting</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="../assets/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style type="text/css">
+            .inner {
+		max-width: 75em;
+		margin: 0 auto;
+	}
+
+		@media screen and (max-width: 1280px) {
+
+			.inner {
+				max-width: 90%;
+			}
+
+		}
+
+		@media screen and (max-width: 480px) {
+
+			.inner {
+				max-width: 90%;
+			}
+
+		}
+
+		.subpage #header {
+			background: #6cc091;
+			top: 0;
+			height: 44px;
+			line-height: 44px;
+			position: fixed;
+		}
+
+	#header {
+		color: #fff;
+		cursor: default;
+		height: 3.25em;
+		left: 0;
+		line-height: 3.25em;
+		position: absolute;
+		text-align: right;
+		top: 0;
+		width: 100%;
+		z-index: 10001;
+	}
+
+		#header .inner {
+			margin: 0 auto;
+			position: relative;
+		}
+
+		#header .logo {
+			color: #ffffff;
+			display: inline-block;
+			font-weight: 400;
+			height: inherit;
+			left: 0;
+			line-height: inherit;
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			top: 0;
+			font-size: 1em;
+		}
+
+			#header .logo strong {
+				color: #ffffff;
+				font-weight: 600;
+			}
+
+		#header a {
+			-moz-transition: color 0.2s ease-in-out;
+			-webkit-transition: color 0.2s ease-in-out;
+			-ms-transition: color 0.2s ease-in-out;
+			transition: color 0.2s ease-in-out;
+			display: inline-block;
+			padding: 0 0.75em;
+			color: #5ef7a3;
+			text-decoration: none;
+			font-size: 1em;
+		}
+
+			#header a:hover {
+				color: #7bf6ff;
+			}
+
+			#header a:last-child {
+				padding-right: 0;
+			}
+
+			#header a.navPanelToggle {
+				display: none;
+				text-decoration: none;
+				height: 4em;
+				width: 4em;
+				z-index: 10003;
+			}
+
+				#header a.navPanelToggle .fa {
+					font-size: 1.25em;
+				}
+
+				@media screen and (max-width: 980px) {
+
+					#header a.navPanelToggle {
+						display: inline-block;
+					}
+
+				}
+
+			@media screen and (max-width: 736px) {
+
+				#header a {
+					padding: 0 0.5em;
+				}
+
+			}
+
+	@media screen and (max-width: 980px) {
+
+		#header {
+			top: 1em;
+		}
+
+	}
+
+	@media screen and (max-width: 736px) {
+
+		#header {
+			top: .5em;
+		}
+
+	}
+
+	@media screen and (max-width: 480px) {
+
+		#header {
+			font-size: .9em;
+		}
+
+	}
+
+/* Nav */
+
+	@media screen and (max-width: 980px) {
+
+		#nav {
+			display: none;
+		}
+
+	}
+
+	#navPanel {
+		-moz-transform: translatex(20em);
+		-webkit-transform: translatex(20em);
+		-ms-transform: translatex(20em);
+		transform: translatex(20em);
+		-moz-transition: -moz-transform 0.2s ease-in-out, visibility 0.2s ease-in-out;
+		-webkit-transition: -webkit-transform 0.2s ease-in-out, visibility 0.2s ease-in-out;
+		-ms-transition: -ms-transform 0.2s ease-in-out, visibility 0.2s ease-in-out;
+		transition: transform 0.2s ease-in-out, visibility 0.2s ease-in-out;
+		-webkit-overflow-scrolling: touch;
+		visibility: hidden;
+		overflow-y: auto;
+		position: fixed;
+		right: 0;
+		top: 0;
+		background: #6cc091;
+		color: #daefe3;
+		height: 100%;
+		max-width: 80%;
+		width: 20em;
+		padding: 0.5em 1.25em;
+		z-index: 10010;
+	}
+
+		#navPanel.visible {
+			-moz-transform: translatex(0);
+			-webkit-transform: translatex(0);
+			-ms-transform: translatex(0);
+			transform: translatex(0);
+			box-shadow: 0 0 1.5em 0 rgba(0, 0, 0, 0.2);
+			visibility: visible;
+		}
+
+		#navPanel a:not(.close) {
+			border-top: solid 1px #8dcca9;
+			color: #86ff90;
+			font-weight: 600;
+			display: block;
+			padding: 0.75em 0;
+			text-decoration: none;
+			font-weight: 400;
+		}
+
+			#navPanel a:not(.close):first-child {
+				border: none;
+			}
+
+		#navPanel .close {
+			text-decoration: none;
+			-moz-transition: color 0.2s ease-in-out;
+			-webkit-transition: color 0.2s ease-in-out;
+			-ms-transition: color 0.2s ease-in-out;
+			transition: color 0.2s ease-in-out;
+			-webkit-tap-highlight-color: transparent;
+			border: 0;
+			color: #daefe3;
+			cursor: pointer;
+			display: block;
+			height: 4em;
+			padding-right: 1.25em;
+			position: absolute;
+			right: 0;
+			text-align: right;
+			top: 0;
+			vertical-align: middle;
+			width: 5em;
+		}
+
+			#navPanel .close:before {
+				-moz-osx-font-smoothing: grayscale;
+				-webkit-font-smoothing: antialiased;
+				font-family: FontAwesome;
+				font-style: normal;
+				font-weight: normal;
+				text-transform: none !important;
+				content: '\f00d';
+				width: 3em;
+				height: 3em;
+				line-height: 3em;
+				display: block;
+				position: absolute;
+				right: 0;
+				top: 0;
+				text-align: center;
+			}
+
+			#navPanel .close:hover {
+				color: inherit;
+			}
+
+		#logo {
+			position: absolute;
+			top:5;
+			left:0;
+		}
+		
+		.notmain {
+			background-color: rgba(104, 121, 145, 0.774);
+			background-image: url(../../images/banner.jpg);
+			background-position: center;
+			position: sticky;
+			top: 0;
+
+		}
+
+		.notmaintext a{
+			color: rgb(81, 35, 207);
+        }
+        
+        body {
+            background-color: hsla(235, 100%, 94%, 1);
+        }
+
+        </style>
     </head>
     <body>
         <header id = "header" class = "notmain">
