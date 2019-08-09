@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="src/papaparse.min.js"></script>
+    <script type="text/javascript" src="src/progressbars.js"></script>
+    <script type="text/javascript" src="src/currency.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet'>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-sankey.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.7.0/js/anychart-pie.min.js"></script>
+    <script type="text/javascript">
+        window.currentFilters = {};
+    </script>
+    <script type="text/javascript" src="src/geolocation.js"></script>
+    <script type="text/javascript" src="src/data.js"></script>
+    <script type="text/javascript" src="src/queries.js"></script>
+    <script type="text/javascript" src="src/diagrams.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style type="text/css">
+        body {
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 1%;
+        }
+        
+        #pieContainer {
+            height: 500px;
+        }
+        
+        #theProgressBar {
+            height: 20px;
+        }
+    </style>
+    <title>Pie Charts</title>
+</head>
+
+<body>
+    <div class="container">
+    	<div class="row">
+	    	<div class="col-4">
+	    		<h1>Pie Chart 1</h1> 
+	    		<div id="pieContainer1"></div>
+	    	</div>
+	    	<div class="col">
+	    		<h1>Pie Chart 2</h1>
+	    		<div id="pieContainer2"></div>
+	    	</div>
+	        <div class="col">
+	            <h1>Filter</h1>
+	            <form id="mapFilterForm">
+	                <div class="form-group row">
+	                    <label class="col-sm-2 col-form-label" for="queryInput">Query</label>
+	                    <div class="col-sm-10">
+	                        <input type="text" class="form-control" id="queryInput" placeholder="Query">
+	                    </div>
+	                </div>
+	                <div class="form-group row">
+	                    <label for="yearSelect" class="col-sm-2 col-form-label">Year</label>
+	                    <div class="col-sm-10">
+	                        <select class="form-control" id="yearSelect">
+	                            <option>2001</option>
+	                            <option>2002</option>
+	                            <option>2003</option>
+	                            <option>2004</option>
+	                            <option>2005</option>
+	                            <option>2006</option>
+	                            <option>2007</option>
+	                            <option>2008</option>
+	                            <option>2009</option>
+	                            <option>2010</option>
+	                            <option>2011</option>
+	                            <option>2012</option>
+	                            <option>2013</option>
+	                            <option>2014</option>
+	                            <option>2015</option>
+	                            <option>2016</option>
+	                            <option>2017</option>
+	                            <option>2018</option>
+	                            <option>2019</option>
+	                        </select>
+	                    </div>
+
+	                </div>
+	                <div class="form-group row">
+	                    <label class="col-sm-2 col-form-label">Quarter</label>
+	                    <div class="col-sm-10" style="padding-top: 6px">
+	                        <div class="form-check form-check-inline">
+	                            <input class="form-check-input" type="checkbox" id="Q1Checkbox" value="1">
+	                            <label class="form-check-label" for="inlineCheckbox1">Q1</label>
+	                        </div>
+	                        <div class="form-check form-check-inline">
+	                            <input class="form-check-input" type="checkbox" id="Q2Checkbox" value="2">
+	                            <label class="form-check-label" for="inlineCheckbox2">Q2</label>
+	                        </div>
+	                        <div class="form-check form-check-inline">
+	                            <input class="form-check-input" type="checkbox" id="Q3Checkbox" value="3">
+	                            <label class="form-check-label" for="inlineCheckbox2">Q3</label>
+	                        </div>
+	                        <div class="form-check form-check-inline">
+	                            <input class="form-check-input" type="checkbox" id="Q4Checkbox" value="4">
+	                            <label class="form-check-label" for="inlineCheckbox1">Q4</label>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="row">
+	                	<div class="col">
+		                	<button type="button" class="btn btn-success" id="visualise1">Visualise Pie Chart 1</button>
+		            	</div>
+		            	<div class="col float-right text-right">
+		            		<button type="button" class="btn btn-success" id="visualise2">Visualise Pie Chart 2</button>
+		            	</div>
+		            </div>
+	            </form>
+	        </div>
+	    </div>
+    </div>
+    <script type="text/javascript">
+		let filterForm = document.getElementById("mapFilterForm");
+		filterForm.addEventListener("change", () => setFilters());
+		document.getElementById("visualise1").addEventListener("click", () => {
+			getPieChartPercentages(data => drawPieChart(data, "pieContainer1"));
+		});
+		document.getElementById("visualise2").addEventListener("click", () => {
+			getPieChartPercentages(data => drawPieChart(data, "pieContainer2"));
+		})
+		setFilters();
+	</script>
+    <script type="text/javascript" src="src/map.js"></script>
+    <script type="text/javascript" src="src/votescraper.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</body>
+
+</html>

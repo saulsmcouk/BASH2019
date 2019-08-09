@@ -9,6 +9,10 @@ var app = express();
 app.get('/', function (request, response) {
     response.sendFile(path.join(__dirname+"/index.html"));
 });
+app.get('/pie', function (request, response) {
+    response.sendFile(path.join(__dirname+"/views/pie.html"));
+});
+
 
 app.use("/src", express.static(path.join(__dirname, "./src")));
 

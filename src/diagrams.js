@@ -3,6 +3,7 @@
 function drawSankeyChart(data) {
     var sankey_chart = anychart.sankey(data);//customizing the width of the nodes
     sankey_chart.nodeWidth("50%");
+    sankey_chart.nodePadding(5);
     sankey_chart.container("container");//initiating drawing the Sankey diagram
     sankey_chart.draw();
 }
@@ -33,6 +34,20 @@ function buildSankeyData(data, fromIndex) {
         // Granualate here:
         sankeyItems.push(applyGranularFilter(item));
     });
+    // Tally company types TODO: IMPLEMENT THIS, for loops make cors angry
+    // let companyTypes = {};
+    // data.forEach(function(item) {
+    //     if(item[9] == "Company") {
+    //         getSIC(item[11], sic => {
+    //             let thePhrase = SICtoPhrase(sic);
+    //             if (thePhrase in companyTypes) {
+    //                 companyTypes[thePhrase] += currency(item[3]);
+    //             } else {
+    //                 companyTypes[thePhrase] = currency(item[3]);
+    //             }
+    //         });
+    //     }
+    // });
     return sankeyItems;
 }
 
@@ -57,3 +72,41 @@ function tallyTypesOfDonor(recipient, data) {
     console.log(donorTypes);
     return donorTypes;
 }
+
+// Pie Charts
+function getPieChartPercentages(callback) {
+    GetCSVDonationData(data => {
+        data = data.slice(1, data.length-1);
+        let totalsByType = {};
+        for (let id in data) {
+            let theAmount = currency(data[id][3]).value;
+            if (data[id][9] in totalsByType) {
+                totalsByType[data[id][9]] += theAmount;
+            } else {
+                totalsByType[data[id][9]] = theAmount;
+            }
+        }
+        callback(totalsByType);
+    });
+}
+
+function drawPieChart(data, container) { 
+    let pieData = [];
+    for (let [key, val] of Object.entries(data)) {
+        pieData.push({
+            x: key,
+            value: val
+        });
+    }
+
+    let theChart = anychart.pie(pieData);
+    theChart.container(container);
+    theChart.draw();
+    console.log(Object.entries(pieData));
+}
+
+function testPie() {
+    getPieChartPercentages(data => drawPieChart(data, "pieContainer1"));
+}
+
+// TODO: Comparisons - put pie charts on own page?
