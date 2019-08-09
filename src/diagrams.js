@@ -73,8 +73,8 @@ function getPieChartPercentages(callback) {
 }
 
 let chartPalette = {
-    "Uncategorised": "#8B8BFF",
-    "Overheads and general administration": 
+    "Uncategorised": "#8B8BFF"
+    // "Overheads and general administration": 
 }
 
 function drawPieChart(data, container) { 
