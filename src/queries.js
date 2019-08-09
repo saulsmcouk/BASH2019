@@ -87,8 +87,7 @@ function GenECSpendingQuery(params) {
 /*http://search.electoralcommission.org.uk/api/csv/Spending?start={start}&rows={pageSize}&query=&sort=DateIncurred&order=desc&et=pp&et=ppm&et=tp&et=perpar&et=rd&date=&from=&to=&rptPd=&prePoll=false&postPoll=false&period=445&isIrishSourceYes=true&isIrishSourceNo=true&includeOutsideSection75=true
 http://search.electoralcommission.org.uk/api/csv/Spending?start={start}&rows={pageSize}&query=&sort=DateIncurred&order=desc&et=pp&et=ppm&et=tp&et=perpar&et=rd&date=&from=&to=&rptPd=&prePoll=false&postPoll=false&period=410&isIrishSourceYes=true&isIrishSourceNo=true&includeOutsideSection75=true
 */
-	console.log(theSpendingPeriods[params["period"]]);	
-	let theURL =  `http://search.electoralcommission.org.uk/api/csv/Spending?start={start}&rows={pageSize}&query=${params["query"]}&sort=DateIncurred&order=desc&et=pp&et=ppm&et=tp&et=perpar&et=rd&date=&from=&to=&rptPd=&prePoll=false&postPoll=false&period=2514&isIrishSourceYes=true&isIrishSourceNo=true&includeOutsideSection75=false`;
+	let theURL =  `http://search.electoralcommission.org.uk/api/csv/Spending?start={start}&rows={pageSize}&query=${params["query"]}&sort=DateIncurred&order=desc&et=pp&et=ppm&et=tp&et=perpar&et=rd&date=&from=&to=&rptPd=&prePoll=false&postPoll=false&period=${params["period"]}&isIrishSourceYes=true&isIrishSourceNo=true&includeOutsideSection75=false`;
 	console.log(theURL);
 	return theURL;
 }

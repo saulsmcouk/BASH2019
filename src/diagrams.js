@@ -73,9 +73,25 @@ function getPieChartPercentages(callback) {
 }
 
 let chartPalette = {
-    "Uncategorised": "#8B8BFF"
-    // "Overheads and general administration": 
-}
+    "Uncategorised": "#8B8BFF",
+    "Overheads and general administration": "#6a041d",
+    "Unsolicited material to electors": "#f5b841",
+    "Transport": "#f4ff52",
+    "Advertising": "#1b4ca2",
+    "Rallies and other events": "#61ebe9",
+    "Manifesto or Referendum material": "#ad2155",
+    "Media": "#fe638a",
+    "Market research/canvassing": "#c4e8a1",
+    "Balancing item": "#2df90e",
+    "Campaign broadcasts": "#955090",
+    "Unsolicited material to electors (outside s.75)": "#b177eb",
+    "Advertising (outside s.75)": "#8a9d0d",
+    "Overheads and general administration (outside s.75)": "#f07746",
+    "Rallies and other events (outside s.75)": "#c7f05e",
+    "Market research/canvassing (outside s.75)": "#d1b3ce",
+    "Transport (outside s.75)": "#5e21d1",
+    "Manifesto or Referendum material (outside s.75)": "#eb1803"
+};
 
 function drawPieChart(data, container) { 
     let pieData = [];
@@ -90,9 +106,14 @@ function drawPieChart(data, container) {
     theChart.container(container);
     theChart.radius("100%");
     let theColours = theChart.toJson()["chart"]["palette"]["items"];
-    console.log(theChart.toJson()["chart"]["data"][1]["x"]);
+    let theData = theChart.toJson()["chart"]["data"];
+
+    for (var i = 0; i < theData.length; i++) {
+        let type = theData[i]["x"];
+        theColours[i] = chartPalette[type];
+    }
+
     theChart.draw();
-    console.log(Object.entries(pieData));
 }
 
 function testPie() {
