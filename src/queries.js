@@ -41,10 +41,6 @@ function generateQuartersString(selectedQuarters,year) {
 }
 
 function setFilters(){
-	Toastify({
-		text: "setFilters",
-		duration: 3000
-	}).showToast();
 	let query = document.getElementById("queryInput").value;
 			let selectedQuarters = [
 				document.getElementById("Q1Checkbox").checked,
