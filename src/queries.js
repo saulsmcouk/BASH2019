@@ -18,7 +18,7 @@ function generateECDonationsQuery(params) {
 		"currentPage": 1,
 		"rows": 50,
 		"query": "",
-		"regulatedEntity": ""
+		"regulatedEntity": "",
 		"quarters": "",
 		"tab": "",
 		"includesIrishSources": "true",
@@ -29,9 +29,36 @@ function generateECDonationsQuery(params) {
 	}
 	return `http://search.electoralcommission.org.uk/api/csv/Donations?currentPage=${filters["currentPage"]}&rows=${filters["rows"]}&query=${encodeURI(filters["query"])}&sort=AcceptedDate&order=desc&tab=${filters["tab"]}&et=pp&et=ppm&et=tp&et=perpar&et=rd&isIrishSourceYes=${filters["includesIrishSources"]}&isIrishSourceNo=${filters["includesNonIrishSources"]}&date=Reported&from=&to=&quarters=${filters["quarters"]}&prePoll=false&postPoll=true&register=gb&register=ni&register=none&optCols=Register&optCols=CampaigningName&optCols=AccountingUnitsAsCentralParty&optCols=IsSponsorship&optCols=IsIrishSource&optCols=RegulatedDoneeType&optCols=CompanyRegistrationNumber&optCols=Postcode&optCols=NatureOfDonation&optCols=PurposeOfVisit&optCols=DonationAction&optCols=ReportedDate&optCols=IsReportedPrePoll&optCols=ReportingPeriodName&optCols=IsBequest&optCols=IsAggregation`;
 }
+
+function generateQuartersString(selectedQuarters,year) {
+	let quartersString = "";
+	for (var n = 0; n < selectedQuarters.length; n++) {
+		if (selectedQuarters[n]) {
+			quartersString += n+1;
+		}
+	}
+	return year + "Q" + quartersString;
+}
+
+function setFilters(){
+	Toastify({
+		text: "setFilters",
+		duration: 3000
+	}).showToast();
+	let query = document.getElementById("queryInput").value;
+			let selectedQuarters = [
+				document.getElementById("Q1Checkbox").checked,
+				document.getElementById("Q2Checkbox").checked,
+				document.getElementById("Q3Checkbox").checked,
+				document.getElementById("Q4Checkbox").checked
+			]
+			let yearSelect = document.getElementById("yearSelect");
+			let year = yearSelect.options[yearSelect.selectedIndex].innerHTML;
+			window.currentFilters["query"] = query;
+			window.currentFilters["quarters"] = generateQuartersString(
+				selectedQuarters, year
+				);
+}
 /*
 search.electoralcommission.org.uk/Search/Donations?currentPage=${filters["currentPage"]}&rows=${filters["rows"]}&query=${filters["query"]}&sort=AccceptedDate&quarters=${filters["quarters"]}&order=desc&tab=${filters["tab"]}&et=pp&et=ppm&et=tp&et=perpar&et=rd&isIrishSourceYes=${filters["includesIrishSources"]}&isIrishSourceNo=${filters["includesNonIrishSources"]}&prePoll=false&postPoll=true&register=gb&register=ni&register=none&optCols=Register&optCols=CampaigningName&optCols=AccountingUnitsAsCentralParty&optCols=IsSponsorship&optCols=IsIrishSource&optCols=RegulatedDoneeType&optCols=CompanyRegistrationNumber&optCols=Postcode&optCols=NatureOfDonation&optCols=PurposeOfVisit&optCols=DonationAction&optCols=ReportedDate&optCols=IsReportedPrePoll&optCols=ReportingPeriodName&optCols=IsBequest&optCols=IsAggregation
-
-
-
 */
