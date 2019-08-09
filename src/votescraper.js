@@ -40,4 +40,4 @@ function getPersonID(mp, callback) {
         });
 }
 
-console.log(getPersonID("Diane Abbott", data => scrapeVotes(data, out => {return out})));
+// console.log(getPersonID("Diane Abbott", data => scrapeVotes(data, out => {return out})));

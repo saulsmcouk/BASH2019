@@ -1,3 +1,20 @@
+// Spending
+
+async function GetSpendingData(callback) {
+	Toastify({
+		text: "GetSpendingData",
+		duration: 3000
+	}).showToast();
+	fetch(GenECSpendingQuery(window.currentFilters))
+		.then(data => data.blob())
+		.then(async function (data) {
+			const response = await new Response(data).text();
+			window.tempData = response;
+			callback(Papa.parse(response)["data"]);
+		})
+}
+
+// Donations
 async function GetCSVDonationData(callback) {
 	Toastify({
 		text: "GetCSVDonationData",
@@ -7,7 +24,6 @@ async function GetCSVDonationData(callback) {
 		.then(data => data.blob())
 		.then(async function (data){
 			const response = await new Response(data).text();
-			window.tempData = Papa.parse(response)["data"];
 			callback(Papa.parse(response)["data"]);
 		});
 }
