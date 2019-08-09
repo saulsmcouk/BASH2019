@@ -101,6 +101,7 @@ function drawPieChart(data, container) {
 
     let theChart = anychart.pie(pieData);
     theChart.container(container);
+    theChart.radius("100%");
     theChart.draw();
     console.log(Object.entries(pieData));
 }
