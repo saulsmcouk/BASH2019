@@ -7,14 +7,27 @@ var axios = require("axios");
 var app = express();
 
 app.get('/', function (request, response) {
-    response.sendFile(path.join(__dirname+"/index.html"));
+    response.sendFile(path.join(__dirname+"/views/index.html"));
 });
 app.get('/pie', function (request, response) {
     response.sendFile(path.join(__dirname+"/views/pie.html"));
 });
 
+app.get('/sankey', function (request, response) {
+    response.sendFile(path.join(__dirname+"/views/sankey.html"));
+});
+
+app.get('/heatmap', function (request, response) {
+    response.sendFile(path.join(__dirname+"/views/heatmap.html"));
+});
+
+app.get('/voting', function (request, response) {
+    response.sendFile(path.join(__dirname+"/views/voting.html"));
+});
 
 app.use("/src", express.static(path.join(__dirname, "./src")));
+app.use("/assets", express.static(path.join(__dirname, "./assets")));
+app.use("/images", express.static(path.join(__dirname, "./images")));
 
 var server = app.listen(3000, function(){
 
