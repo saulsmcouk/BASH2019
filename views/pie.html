@@ -30,29 +30,27 @@
             margin-right: 10%;
             margin-top: 1%;
         }
-        
-        #pieContainer {
-            height: 500px;
-        }
-        
-        #theProgressBar {
-            height: 20px;
-        }
+    	.pieChart {
+    		height: 300px;
+    		width: 100%;
+    	}    
     </style>
     <title>Pie Charts</title>
 </head>
 
 <body>
     <div class="container">
-    	<div class="row">
-	    	<div class="col-4">
-	    		<h1>Pie Chart 1</h1> 
-	    		<div id="pieContainer1"></div>
-	    	</div>
+    	<div class="row" id="pieChartsRow">
 	    	<div class="col">
-	    		<h1>Pie Chart 2</h1>
-	    		<div id="pieContainer2"></div>
+	    		<h1 id="pieChart1H">Pie Chart 1</h1> 
+	    		<div id="pieContainer1" class="pieChart"></div>
 	    	</div>
+	    	<div class="col float-right text-right">
+	    		<h1 id="pieChart2H">Pie Chart 2</h1>
+	    		<div id="pieContainer2" class="pieChart"></div>
+	    	</div>
+	    </div>
+	    <div class="row">
 	        <div class="col">
 	            <h1>Filter</h1>
 	            <form id="mapFilterForm">
@@ -126,10 +124,12 @@
 		let filterForm = document.getElementById("mapFilterForm");
 		filterForm.addEventListener("change", () => setFilters());
 		document.getElementById("visualise1").addEventListener("click", () => {
+			document.getElementById("pieChart1H").innerHTML = `${window.currentFilters["query"]} donations in ${window.currentFilters["quarters"]}`;
 			getPieChartPercentages(data => drawPieChart(data, "pieContainer1"));
 		});
 		document.getElementById("visualise2").addEventListener("click", () => {
 			getPieChartPercentages(data => drawPieChart(data, "pieContainer2"));
+			document.getElementById("pieChart2H").innerHTML = `${window.currentFilters["query"]} donations in ${window.currentFilters["quarters"]}`;
 		})
 		setFilters();
 	</script>
