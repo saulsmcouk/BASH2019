@@ -2712,7 +2712,7 @@
 		line-height: 3.25em;
 		position: absolute;
 		text-align: right;
-		top: 2em;
+		top: 0;
 		width: 100%;
 		z-index: 10001;
 	}
@@ -2748,13 +2748,13 @@
 			transition: color 0.2s ease-in-out;
 			display: inline-block;
 			padding: 0 0.75em;
-			color: inherit;
+			color: #5ef7a3;
 			text-decoration: none;
 			font-size: 1em;
 		}
 
 			#header a:hover {
-				color: #ffffff;
+				color: #7bf6ff;
 			}
 
 			#header a:last-child {
@@ -2858,7 +2858,7 @@
 
 		#navPanel a:not(.close) {
 			border-top: solid 1px #8dcca9;
-			color: #daefe3;
+			color: #86ff90;
 			font-weight: 600;
 			display: block;
 			padding: 0.75em 0;
@@ -3163,4 +3163,17 @@
 			position: absolute;
 			top:5;
 			left:0;
+		}
+		
+		.notmain {
+			background-color: rgba(104, 121, 145, 0.774);
+			background-image: url(../../images/banner.jpg);
+			background-position: center;
+			position: sticky;
+			top: 0;
+
+		}
+
+		.notmaintext a{
+			color: rgb(81, 35, 207);
 		}
