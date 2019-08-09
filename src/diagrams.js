@@ -2,6 +2,8 @@
 
 function drawSankeyChart(data) {
     var sankey_chart = anychart.sankey(data);//customizing the width of the nodes
+    sankey_chart.nodeWidth("50%");
+    sankey_chart.nodePadding(5);
     sankey_chart.container("container");//initiating drawing the Sankey diagram
     sankey_chart.draw();
 }
@@ -42,17 +44,57 @@ function drawSankeyDiagram(fromIndex) {
     });
 }
 
-function tallyTypesOfDonor(recipient, data) {
-    donorTypes = {};
-    data.shift();
-    for (var i = 0; i < data.length; i++) {
-        if(data[i][9] in donorTypes) {
-            donorTypes[data[i][9]] +=1;
-        }
-        else {
-            donorTypes[data[i][9]] = 1;
+function tallyTotals(data, type, amount) {
+    let totalsByType = {};
+    for (let id in data) {
+        let theAmount = currency(data[id][amount]).value;
+        if (data[id][type] in totalsByType) {
+            totalsByType[data[id][type]] += theAmount;
+        } else {
+            totalsByType[data[id][type]] = theAmount;
         }
     }
-    console.log(donorTypes);
-    return donorTypes;
+    return totalsByType;
+}
+
+// Pie Charts
+function getSpendingPieChartData(callback) {
+    GetSpendingData(data => {
+        data = data.slice(1, data.length - 1);
+        callback(tallyTotals(data, 6, 4));
+    })
+}
+
+function getPieChartPercentages(callback) {
+    GetCSVDonationData(data => {
+        data = data.slice(1, data.length-1);
+        callback(tallyTotals(data, 9, 3));
+    });
+}
+
+let chartPalette = {
+    "Uncategorised": "#8B8BFF"
+    // "Overheads and general administration": 
+}
+
+function drawPieChart(data, container) { 
+    let pieData = [];
+    for (let [key, val] of Object.entries(data)) {
+        pieData.push({
+            x: key,
+            value: val
+        });
+    }
+
+    let theChart = anychart.pie(pieData);
+    theChart.container(container);
+    theChart.radius("100%");
+    let theColours = theChart.toJson()["chart"]["palette"]["items"];
+    console.log(theChart.toJson()["chart"]["data"][1]["x"]);
+    theChart.draw();
+    console.log(Object.entries(pieData));
+}
+
+function testPie() {
+    getPieChartPercentages(data => drawPieChart(data, "pieContainer1"));
 }
