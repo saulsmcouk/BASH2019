@@ -106,5 +106,7 @@ function drawPieChart(data, container) {
 }
 
 function testPie() {
-    getPieChartPercentages(data => drawPieChart(data, "pieContainer"));
+    getPieChartPercentages(data => drawPieChart(data, "pieContainer1"));
 }
+
+// TODO: Comparisons - put pie charts on own page?
