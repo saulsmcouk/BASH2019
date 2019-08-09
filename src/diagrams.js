@@ -34,20 +34,6 @@ function buildSankeyData(data, fromIndex) {
         // Granualate here:
         sankeyItems.push(applyGranularFilter(item));
     });
-    // Tally company types TODO: IMPLEMENT THIS, for loops make cors angry
-    // let companyTypes = {};
-    // data.forEach(function(item) {
-    //     if(item[9] == "Company") {
-    //         getSIC(item[11], sic => {
-    //             let thePhrase = SICtoPhrase(sic);
-    //             if (thePhrase in companyTypes) {
-    //                 companyTypes[thePhrase] += currency(item[3]);
-    //             } else {
-    //                 companyTypes[thePhrase] = currency(item[3]);
-    //             }
-    //         });
-    //     }
-    // });
     return sankeyItems;
 }
 
@@ -58,36 +44,37 @@ function drawSankeyDiagram(fromIndex) {
     });
 }
 
-function tallyTypesOfDonor(recipient, data) {
-    donorTypes = {};
-    data.shift();
-    for (var i = 0; i < data.length; i++) {
-        if(data[i][9] in donorTypes) {
-            donorTypes[data[i][9]] +=1;
-        }
-        else {
-            donorTypes[data[i][9]] = 1;
+function tallyTotals(data, type, amount) {
+    let totalsByType = {};
+    for (let id in data) {
+        let theAmount = currency(data[id][amount]).value;
+        if (data[id][type] in totalsByType) {
+            totalsByType[data[id][type]] += theAmount;
+        } else {
+            totalsByType[data[id][type]] = theAmount;
         }
     }
-    console.log(donorTypes);
-    return donorTypes;
+    return totalsByType;
 }
 
 // Pie Charts
+function getSpendingPieChartData(callback) {
+    GetSpendingData(data => {
+        data = data.slice(1, data.length - 1);
+        callback(tallyTotals(data, 6, 4));
+    })
+}
+
 function getPieChartPercentages(callback) {
     GetCSVDonationData(data => {
         data = data.slice(1, data.length-1);
-        let totalsByType = {};
-        for (let id in data) {
-            let theAmount = currency(data[id][3]).value;
-            if (data[id][9] in totalsByType) {
-                totalsByType[data[id][9]] += theAmount;
-            } else {
-                totalsByType[data[id][9]] = theAmount;
-            }
-        }
-        callback(totalsByType);
+        callback(tallyTotals(data, 9, 3));
     });
+}
+
+let chartPalette = {
+    "Uncategorised": "#8B8BFF",
+    "Overheads and general administration": 
 }
 
 function drawPieChart(data, container) { 
@@ -102,6 +89,8 @@ function drawPieChart(data, container) {
     let theChart = anychart.pie(pieData);
     theChart.container(container);
     theChart.radius("100%");
+    let theColours = theChart.toJson()["chart"]["palette"]["items"];
+    console.log(theChart.toJson()["chart"]["data"][1]["x"]);
     theChart.draw();
     console.log(Object.entries(pieData));
 }
@@ -109,5 +98,3 @@ function drawPieChart(data, container) {
 function testPie() {
     getPieChartPercentages(data => drawPieChart(data, "pieContainer1"));
 }
-
-// TODO: Comparisons - put pie charts on own page?
