@@ -9,7 +9,6 @@ function scrapeVotes(id, callback) {
     })
         .then(body => body.json()).then(
             function (data) {
-                console.log(data);
                 callback(data)
             }
         )
@@ -40,4 +39,34 @@ function getPersonID(mp, callback) {
         });
 }
 
-// console.log(getPersonID("Diane Abbott", data => scrapeVotes(data, out => {return out})));
+function createVotesList() {
+    resetVotesList();
+    let mp = window.currentFilters["queryInput"]
+    getPersonID(mp, data => scrapeVotes(data, out => {
+        addVotesList(out);
+    }));
+}
+
+function setMpInput() {
+    let mp = document.getElementById("queryInput").value;
+    window.currentFilters["queryInput"] = mp;
+}
+
+function addVotesList(list) {
+    var votesList = document.getElementById("votesList");
+    list.forEach(function(i) {
+        var listItem = document.createElement("li");
+        var text = document.createTextNode(i);
+        listItem.appendChild(text);
+        votesList.appendChild(listItem);
+    });
+}
+
+function resetVotesList() {
+    var parent = document.getElementById("votesListDiv");
+    var child = document.getElementById("votesList");
+    parent.removeChild(child);
+    var newChild = document.createElement("ul");
+    newChild.setAttribute("id", "votesList");
+    parent.appendChild(newChild);
+}

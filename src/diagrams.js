@@ -1,6 +1,7 @@
 // TODO: Create customisable granulation
 
 function drawSankeyChart(data) {
+    clearSankeyChart();
     var sankey_chart = anychart.sankey(data);//customizing the width of the nodes
     sankey_chart.nodeWidth("50%");
     sankey_chart.nodePadding(5);
@@ -8,7 +9,14 @@ function drawSankeyChart(data) {
     sankey_chart.draw();
 }
 
-
+function clearSankeyChart(){
+    var parent = document.getElementById("containerparent");
+    var child = document.getElementById("container");
+    parent.removeChild(child);
+    var newContainer = document.createElement("div");
+    newContainer.setAttribute("id", "container");
+    parent.appendChild(newContainer);
+}
 
 /*Schema: index 1 donee index 5 name index 9 type*/
 function applyGranularFilter(item) {
@@ -77,7 +85,17 @@ let chartPalette = {
     // "Overheads and general administration": 
 }
 
+function resetPieChart(container) {
+    var child = document.getElementById(container);
+    var parent = child.parentNode;
+    parent.removeChild(child);
+    var newChild = document.createElement("div");
+    newChild.setAttribute("id", container);
+    parent.appendChild(newChild);
+}
+
 function drawPieChart(data, container) { 
+    resetPieChart(container);
     let pieData = [];
     for (let [key, val] of Object.entries(data)) {
         pieData.push({
@@ -90,9 +108,7 @@ function drawPieChart(data, container) {
     theChart.container(container);
     theChart.radius("100%");
     let theColours = theChart.toJson()["chart"]["palette"]["items"];
-    console.log(theChart.toJson()["chart"]["data"][1]["x"]);
     theChart.draw();
-    console.log(Object.entries(pieData));
 }
 
 function testPie() {

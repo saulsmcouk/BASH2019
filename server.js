@@ -2,9 +2,10 @@ var express = require("express");
 var path = require("path");
 var cheerio = require("cheerio");
 var axios = require("axios");
-//var request = require("request");
+var cors = require("cors");
 
 var app = express();
+app.use(cors());
 
 app.get('/', function (request, response) {
     response.sendFile(path.join(__dirname+"/views/index.html"));
@@ -23,6 +24,10 @@ app.get('/heatmap', function (request, response) {
 
 app.get('/voting', function (request, response) {
     response.sendFile(path.join(__dirname+"/views/voting.html"));
+});
+
+app.get('/about', function (request, response) {
+    response.sendFile(path.join(__dirname+"/views/about.html"));
 });
 
 app.use("/src", express.static(path.join(__dirname, "./src")));

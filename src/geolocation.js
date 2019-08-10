@@ -4,7 +4,6 @@ function GenGeoJSON(locs) {
         "type": "FeatureCollection",
         "features": []
     };
-    console.log(locs);
     for (var i = locs.length - 1; i >= 0; i--) {
         theData["features"].push({
             "type": "Feature",

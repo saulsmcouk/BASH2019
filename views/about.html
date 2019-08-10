@@ -1,29 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Who Paid The Piper - Sankey Diagrams</title>
+        <title>Who Paid The Piper - About</title>
 		<meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-        <script type="text/javascript" src="../src/papaparse.min.js"></script>
-        <script type="text/javascript" src="../src/currency.js"></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
-        <script src="https://cdn.anychart.com/releases/v8/js/anychart-sankey.min.js"></script>
-        <script type="text/javascript">
-            window.currentFilters = {};
-        </script>
-        <script type="text/javascript" src="../src/data.js"></script>
-        <script type="text/javascript" src="../src/queries.js"></script>
-        <script type="text/javascript" src="../src/diagrams.js"></script>
-        <style type="text/css">
-            #container {
-                height:500px;
-            }
-            .container{
-                margin-top: 80px;
-            }
-        </style>
         <style type="text/css">
             .inner {
 		max-width: 75em;
@@ -285,6 +268,12 @@
         body {
             background-color: hsla(235, 100%, 94%, 1);
         }
+
+        #about {
+            margin-top:80px;
+            text-align: center;
+        }
+
         </style>
     </head>
     <body>
@@ -302,91 +291,13 @@
                 <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
             </div>
         </header>
-        <div class="container">
-            <div class="row">
-                <h1>Sankey Diagram</h1>
-            </div>
-            <div class="row">
-
-                <div id="sankeyDescription">
-                  <br>
-                    <p><em>This sankey diagram shows the flow of donations<br> between organisations and the specified political party.</em> </p>
-                </div>
-
-                <div class="col">
-                    <h1>Filter</h1>
-                    <form id="mapFilterForm">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="queryInput">Political Party</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="queryInput" placeholder="Political Party">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="yearSelect"  class="col-sm-2 col-form-label">Year</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="yearSelect">
-                                    <option>2001</option>
-                                    <option>2002</option>
-                                    <option>2003</option>
-                                    <option>2004</option>
-                                    <option>2005</option>
-                                    <option>2006</option>
-                                    <option>2007</option>
-                                    <option>2008</option>
-                                    <option>2009</option>
-                                    <option>2010</option>
-                                    <option>2011</option>
-                                    <option>2012</option>
-                                    <option>2013</option>
-                                    <option>2014</option>
-                                    <option>2015</option>
-                                    <option>2016</option>
-                                    <option>2017</option>
-                                    <option>2018</option>
-                                    <option>2019</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Quarter(s): </label>
-                            <div class="col-sm-10" style="padding-top: 6px">
-                                <div class="form-check form-check-inline">
-                                     <input class="form-check-input" type="checkbox" id="Q1Checkbox" value="1">
-                                     <label class="form-check-label" for="inlineCheckbox1">Q1</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="Q2Checkbox" value="2">
-                                    <label class="form-check-label" for="inlineCheckbox2">Q2</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="Q3Checkbox" value="3">
-                                     <label class="form-check-label" for="inlineCheckbox2">Q3</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="Q4Checkbox" value="4">
-                                    <label class="form-check-label" for="inlineCheckbox1">Q4</label>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-success" id="drawMapBtn">Visualise</button>
-                    </form>
-                </div>
-
-            </div>
-            <div class="row" id="containerparent">
-                <div id="container"></div>
-            </div>
+        <div id = "about">
+            <h1>About Our Project</h1>
+            <br>
+            <img src="https://image.flaticon.com/icons/svg/49/49144.svg" alt="Group icon" width="200px" height="200px">
+            <br>
+            <br>
+            <p>Our group sourced data, from the “Electoral Commission” and “They Work For You”, on donations<br> to Political Parties in order to view the donors. However, the data on these site is compiled into an<br>extensive and unnecessarily complicated table which is very difficult to interpret for most people.<br> Our website converts this data into more readable formats, such as Pie charts and a Sankey diag-<br>ram. A Heatmap has also been created to visualize the locations of donors across the UK, and the <br>concentration of the spots (on the map) shows the frequency of donations in the indicated areas.<br> This visualisation allows more transparency about the donations and where the money is sourced.</p>
         </div>
-        <script type="text/javascript">
-            let filterForm = document.getElementById("mapFilterForm");
-            filterForm.addEventListener("change", () => setFilters());
-            document.getElementById("drawMapBtn").addEventListener("click", () => {
-                drawSankeyDiagram(9);
-            });
-            setFilters();
-        </script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     </body>
 </html>
