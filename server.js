@@ -2,9 +2,10 @@ var express = require("express");
 var path = require("path");
 var cheerio = require("cheerio");
 var axios = require("axios");
-//var request = require("request");
+var cors = require("cors");
 
 var app = express();
+app.use(cors());
 
 app.get('/', function (request, response) {
     response.sendFile(path.join(__dirname+"/views/index.html"));
