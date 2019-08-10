@@ -40,6 +40,7 @@ function getPersonID(mp, callback) {
 }
 
 function createVotesList() {
+    resetVotesList();
     let mp = window.currentFilters["queryInput"]
     getPersonID(mp, data => scrapeVotes(data, out => {
         addVotesList(out);
@@ -60,4 +61,12 @@ function addVotesList(list) {
         votesList.appendChild(listItem);
     });
 }
-//console.log(getPersonID("Diane Abbott", data => scrapeVotes(data, out => {return out})));
+
+function resetVotesList() {
+    var parent = document.getElementById("votesListDiv");
+    var child = document.getElementById("votesList");
+    parent.removeChild(child);
+    var newChild = document.createElement("ul");
+    newChild.setAttribute("id", "votesList");
+    parent.appendChild(newChild);
+}
