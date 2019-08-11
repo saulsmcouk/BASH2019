@@ -3,7 +3,8 @@ function scrapeVotes(id, callback) {
         id +
         "/divisions";
     var encodedurl = encodeURIComponent(url);
-    var apicall = "http://localhost:3000/api/getMpVotes/"+encodedurl;
+    var ROOT_URL = true ? "who-paid-the-piper.herokuapp.com" : "localhost:3000";
+    var apicall = "http://" + ROOT_URL + "/api/getMpVotes/" + encodedurl;
     var response = fetch(apicall, {
         "content-type": "application/json"
     })
