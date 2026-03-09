@@ -1,10 +1,16 @@
-function scrapeVotes(id, callback) {
+async function getConfig() {
+    if (window._appConfig) return window._appConfig;
+    const res = await fetch('/api/config');
+    window._appConfig = await res.json();
+    return window._appConfig;
+}
+
+async function scrapeVotes(id, callback) {
     var url = "https://www.theyworkforyou.com/mp/" +
         id +
         "/divisions";
     var encodedurl = encodeURIComponent(url);
-    var ROOT_URL = true ? "who-paid-the-piper.herokuapp.com" : "localhost:3000";
-    var apicall = "http://" + ROOT_URL + "/api/getMpVotes/" + encodedurl;
+    var apicall = "/api/getMpVotes/" + encodedurl;
     var response = fetch(apicall, {
         "content-type": "application/json"
     })
@@ -18,9 +24,10 @@ function scrapeVotes(id, callback) {
 
 
 
-function getPersonID(mp, callback) {
+async function getPersonID(mp, callback) {
+    var config = await getConfig();
     var formatMP = encodeURIComponent(mp);
-    var key = "FFyAQqBAqZQWG9cd6KFVkQew";
+    var key = config.theyWorkForYouKey;
     var url = "https://www.theyworkforyou.com/api/getMPs?search=" +
         formatMP +
         "&output=js&key=" +
