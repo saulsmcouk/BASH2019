@@ -1,5 +1,12 @@
 // Spending
 
+async function getConfig() {
+	if (window._appConfig) return window._appConfig;
+	const res = await fetch('/api/config');
+	window._appConfig = await res.json();
+	return window._appConfig;
+}
+
 async function GetSpendingData(callback) {
 	Toastify({
 		text: "GetSpendingData",
@@ -69,9 +76,10 @@ function inRange(i,a,b) {
 	}
 }
 
-function getSIC(companyNumber, callback) {
+async function getSIC(companyNumber, callback) {
+	var config = await getConfig();
 	let theHeaders = new Headers();
-	theHeaders.append("Authorization","-Mywx4fewf6ullDRAJvRreAwVEiiUYaO3IiHqRNK");
+	theHeaders.append("Authorization", config.companiesHouseKey);
 	fetch("https://api.companieshouse.gov.uk/company/"+companyNumber, {
 		headers: theHeaders
 	})
